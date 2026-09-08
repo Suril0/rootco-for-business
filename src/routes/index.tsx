@@ -334,7 +334,7 @@ function Enquiry() {
   );
 }
 
-function Field({ className, label, error, children }: { className: string; label: string; error?: string; children: ReactNode }) {
+function Field({ className, label, error, children }: { className: string; label: string; error: string | undefined; children: ReactNode }) {
   const child = children as React.ReactElement<{ id?: string }>;
   return <div className={className}><label htmlFor={child.props.id}>{label}</label>{children}{error && <span className="err">{error}</span>}</div>;
 }
