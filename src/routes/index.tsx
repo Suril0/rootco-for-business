@@ -1,13 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 
-import logoAsset from "../assets/logo.svg.asset.json";
 import footerVideo from "../assets/footer-loop.mp4.asset.json";
-import heroImage from "../assets/hero.jpg";
+import juiceImage from "../assets/juice-range.jpg";
+import logoAsset from "../assets/logo.svg.asset.json";
+import snacksImage from "../assets/snacks-range.jpg";
+import heroImage from "../assets/wholesale-hero.jpg";
 
-const TITLE = "Root & Co, For Business — Wholesale Produce & Plant-Forward Supply";
+const TITLE = "Root & Co for Business | Plant-Based Wholesale";
 const DESCRIPTION =
-  "Wholesale supply from Root & Co: small-batch, plant-forward produce, weekly standing orders and next-morning delivery for cafes, restaurants and grocers. Request trade pricing in minutes.";
+  "Tailored wholesale snack and juice partnerships for cafés, hospitality teams, workplaces and retailers. Enquire with Root & Co.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -16,336 +18,76 @@ export const Route = createFileRoute("/")({
       { name: "description", content: DESCRIPTION },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,
 });
 
-/* ------------------------------------------------------------------ data */
-
-const VALUES = [
+const SOLUTIONS = [
   {
-    icon: "◈",
-    title: "One grower network",
-    body: "Every crate is traced to a named farm within 200km. Same growers, same standard, every single delivery.",
+    number: "01",
+    title: "A range shaped around your customer",
+    body: "We help you choose the right balance of everyday favourites, premium treats and functional drinks for your space, audience and price point.",
+    detail: "Range curation · Seasonal refreshes · Dietary mix",
+    className: "solution-wide",
   },
   {
-    icon: "⧗",
-    title: "Harvest-to-door in 24h",
-    body: "Cut in the morning, graded by afternoon, on your bench before service the next day. No cold-store detours.",
+    number: "02",
+    title: "Formats that fit",
+    body: "From grab-and-go counters to meeting rooms and minibar moments, we recommend pack sizes and formats that work where they are served.",
+    detail: "Single serve · Multipacks · Sharing formats",
+    className: "solution-standard",
   },
   {
-    icon: "▤",
-    title: "Trade pricing that holds",
-    body: "Fixed rates for 90 days on standing lines, so your menu costings stay accurate through the quarter.",
-  },
-  {
-    icon: "☘",
-    title: "Zero-waste packing",
-    body: "Returnable crates, compostable liners and a take-back run on every delivery route we already service.",
+    number: "03",
+    title: "A dependable supply rhythm",
+    body: "Agree a practical ordering pattern with your account contact, with support to plan launches, promotions and changes in demand.",
+    detail: "Planned orders · Account support · Clear lead times",
+    className: "solution-standard solution-dark",
   },
 ];
 
-const RANGES = [
+const PARTNERS = [
   {
-    name: "Leaf & Herb",
-    tag: "Cut daily, packed cold",
-    items: [
-      "Salad leaf, baby spinach, rocket",
-      "Soft herbs — basil, dill, coriander",
-      "Micro-leaf and edible flower trays",
-      "Washed, ready-to-plate options",
-    ],
-    moq: "6 crates",
-    lead: "24 hours",
+    title: "Independent retail",
+    body: "A focused edit for shelves and counters, with a mix designed to be easy for customers to understand and easy for teams to replenish.",
   },
   {
-    name: "Roots & Field",
-    tag: "Graded to spec",
-    items: [
-      "Heritage carrot, beet, celeriac",
-      "Alliums, brassicas, squash",
-      "Size-graded to your kitchen spec",
-      "Bulk sacks or portioned cases",
-    ],
-    moq: "10 crates",
-    lead: "48 hours",
+    title: "Hospitality & foodservice",
+    body: "Plant-based snacks and juices selected for cafés, hotels, venues and catering teams where presentation, consistency and pace all matter.",
   },
   {
-    name: "Pantry & Ferment",
-    tag: "Small-batch, own kitchen",
-    items: [
-      "Krauts, kimchi, pickled roots",
-      "Cold-pressed dressings and oils",
-      "Stock bases and root pastes",
-      "White-label runs from 200 units",
-    ],
-    moq: "4 cases",
-    lead: "5 days",
+    title: "Workplace & wellbeing",
+    body: "Flexible ranges for offices, studios and shared spaces—from daily fridge fills to curated pantry and event moments.",
   },
+];
+
+const SUPPORT = [
+  ["Range planning", "A considered starting mix based on your audience, service style and available space."],
+  ["Ordering rhythm", "Practical guidance on quantities and frequency, so stock stays fresh without unnecessary complexity."],
+  ["Launch support", "Product notes and team-ready information to help your people introduce the range with confidence."],
+  ["Ongoing review", "A direct point of contact to review what is moving, adapt the mix and plan what comes next."],
 ];
 
 const STEPS = [
-  {
-    n: "Step 01",
-    title: "Send an enquiry",
-    body: "Tell us your business type, volume and the lines you care about. Two minutes, no account needed.",
-  },
-  {
-    n: "Step 02",
-    title: "Trade list in 24h",
-    body: "A named account lead sends pricing, minimums and the delivery windows that cover your postcode.",
-  },
-  {
-    n: "Step 03",
-    title: "Sample crate",
-    body: "We send a free graded sample crate so your chefs can check quality before anything is committed.",
-  },
-  {
-    n: "Step 04",
-    title: "Standing order",
-    body: "Lock a weekly schedule, adjust quantities by 6pm the day before, and track every drop by crate ID.",
-  },
+  ["01", "Tell us about your business", "Share your space, customer, locations and the kind of range you have in mind."],
+  ["02", "Shape the right solution", "We review fit, recommend a starting mix and talk through quantities and delivery needs."],
+  ["03", "Agree the partnership", "Together we settle the range, ordering rhythm and practical details for launch."],
+  ["04", "Grow with support", "Your account contact stays close as demand changes and new opportunities emerge."],
 ];
 
 const BUSINESS_TYPES = [
+  "Independent retailer",
   "Cafe or coffee shop",
-  "Restaurant or hotel group",
-  "Grocer or farm shop",
-  "Meal kit or food manufacturer",
+  "Restaurant, hotel or venue",
+  "Workplace or wellbeing provider",
   "Distributor or reseller",
   "Other",
 ];
 
-const VOLUMES = [
-  "Under 10 crates / week",
-  "10 – 30 crates / week",
-  "30 – 100 crates / week",
-  "100+ crates / week",
-];
-
-/* ------------------------------------------------------------ reveal hook */
-
-function useReveal() {
-  useEffect(() => {
-    const nodes = Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
-    if (!("IntersectionObserver" in window)) {
-      nodes.forEach((n) => n.classList.add("in"));
-      return;
-    }
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add("in");
-            io.unobserve(e.target);
-          }
-        });
-      },
-      { threshold: 0.12 },
-    );
-    nodes.forEach((n) => io.observe(n));
-    return () => io.disconnect();
-  }, []);
-}
-
-/* --------------------------------------------------------------- the page */
-
-function Index() {
-  useReveal();
-
-  return (
-    <>
-      <Header />
-      <main>
-        <Hero />
-        <Why />
-        <Ranges />
-        <Process />
-        <Enquiry />
-      </main>
-      <Footer />
-    </>
-  );
-}
-
-function Logo({ className = "brand-mark" }: { className?: string }) {
-  return <img src={logoAsset.url} alt="Root & Co" className={className} width={733} height={166} />;
-}
-
-function Header() {
-  return (
-    <header className="site-header">
-      <div className="wrap header-inner">
-        <a href="#top" className="brand-lockup" aria-label="Root & Co, For Business — home">
-          <Logo />
-          <span className="brand-text">
-            Root &amp; Co
-            <span>For Business</span>
-          </span>
-        </a>
-        <nav className="site-nav" aria-label="Primary">
-          <a href="#why">Why us</a>
-          <a href="#ranges">Ranges</a>
-          <a href="#how">How it works</a>
-          <a href="#enquiry">Contact</a>
-        </nav>
-        <a className="btn btn-primary" href="#enquiry">
-          Request trade pricing
-        </a>
-      </div>
-    </header>
-  );
-}
-
-/* 1 — Hero */
-function Hero() {
-  return (
-    <section className="hero" id="top">
-      <div className="wrap hero-grid">
-        <div>
-          <span className="hero-badge">Wholesale · Trade accounts</span>
-          <h1>
-            Fresh from the ground up — <em>at wholesale scale</em>
-          </h1>
-          <p className="hero-lead">
-            Root &amp; Co supplies cafes, kitchens and grocers with small-batch, plant-forward
-            produce from a fixed network of growers. Traceable crates, honest pricing, and a
-            delivery window you can build a prep list around.
-          </p>
-          <div className="hero-actions">
-            <a className="btn btn-primary" href="#enquiry">
-              Request trade pricing
-            </a>
-            <a className="btn btn-ghost" href="#ranges">
-              See the ranges
-            </a>
-          </div>
-          <div className="hero-stats">
-            <div>
-              <div className="num">340+</div>
-              <div className="lbl">trade accounts served weekly</div>
-            </div>
-            <div>
-              <div className="num">24h</div>
-              <div className="lbl">harvest to delivery bench</div>
-            </div>
-            <div>
-              <div className="num">98.6%</div>
-              <div className="lbl">order-accuracy last quarter</div>
-            </div>
-          </div>
-        </div>
-        <div className="hero-media">
-          <img
-            src={heroImage}
-            alt="Wooden wholesale crates filled with fresh leafy greens, herbs and root vegetables"
-            width={1600}
-            height={1104}
-          />
-          <div className="hero-chip">
-            <strong>Crate #RC-2481</strong>
-            <span>Hallow Field Farm · picked 05:40</span>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* 2 — Why partner */
-function Why() {
-  return (
-    <section className="section why reveal" id="why">
-      <div className="wrap">
-        <p className="eyebrow">Why buyers stay</p>
-        <h2 className="section-title">Built for kitchens that can't afford a bad delivery</h2>
-        <p className="section-lead">
-          We run one supply chain, not a marketplace. That means fewer lines, tighter grading, and a
-          person who answers when something goes wrong.
-        </p>
-        <div className="card-grid">
-          {VALUES.map((v) => (
-            <article className="card" key={v.title}>
-              <div className="card-icon" aria-hidden="true">
-                {v.icon}
-              </div>
-              <h3>{v.title}</h3>
-              <p>{v.body}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* 3 — Ranges */
-function Ranges() {
-  return (
-    <section className="section reveal" id="ranges">
-      <div className="wrap">
-        <p className="eyebrow">Wholesale ranges</p>
-        <h2 className="section-title">Three ranges, one delivery run</h2>
-        <p className="section-lead">
-          Mix freely across ranges — minimums apply per range, not per line, so a small kitchen can
-          still order like a big one.
-        </p>
-        <div className="range-grid">
-          {RANGES.map((r) => (
-            <article className="range" key={r.name}>
-              <div className="range-top">
-                <h3>{r.name}</h3>
-                <p>{r.tag}</p>
-              </div>
-              <div className="range-body">
-                <ul>
-                  {r.items.map((i) => (
-                    <li key={i}>
-                      <span className="tick" aria-hidden="true">
-                        ✓
-                      </span>
-                      <span>{i}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="range-meta">
-                  Minimum order <b>{r.moq}</b> · Lead time <b>{r.lead}</b>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* 4 — How it works */
-function Process() {
-  return (
-    <section className="section process reveal" id="how">
-      <div className="wrap">
-        <p className="eyebrow">How it works</p>
-        <h2 className="section-title">From enquiry to standing order in a week</h2>
-        <p className="section-lead">
-          No portals to learn, no onboarding fee, no minimum contract term.
-        </p>
-        <div className="steps">
-          {STEPS.map((s) => (
-            <div className="step" key={s.n}>
-              <div className="step-num">{s.n}</div>
-              <h3>{s.title}</h3>
-              <p>{s.body}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* 5 — Enquiry form */
+const VOLUMES = ["Exploring a first order", "1–2 locations", "3–10 locations", "10+ locations"];
 
 type FormState = {
   name: string;
@@ -356,33 +98,174 @@ type FormState = {
   volume: string;
   message: string;
 };
-
 type Errors = Partial<Record<keyof FormState, string>>;
 
-const EMPTY: FormState = {
-  name: "",
-  business: "",
-  email: "",
-  phone: "",
-  type: "",
-  volume: "",
-  message: "",
-};
+const EMPTY: FormState = { name: "", business: "", email: "", phone: "", type: "", volume: "", message: "" };
 
 function validate(values: FormState): Errors {
   const errors: Errors = {};
   if (values.name.trim().length < 2) errors.name = "Please enter your full name.";
   if (values.business.trim().length < 2) errors.business = "Please enter your business name.";
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(values.email.trim()))
-    errors.email = "Enter a valid email address, e.g. buyer@kitchen.com.";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(values.email.trim())) errors.email = "Enter a valid work email address.";
   const digits = values.phone.replace(/[^\d]/g, "");
-  if (values.phone.trim() && (digits.length < 7 || digits.length > 15))
-    errors.phone = "Enter a valid phone number, or leave it blank.";
-  if (!values.type) errors.type = "Select the type of business you run.";
-  if (!values.volume) errors.volume = "Select an estimated weekly volume.";
-  if (values.message.trim().length < 10)
-    errors.message = "Tell us a little more — at least 10 characters.";
+  if (values.phone.trim() && (digits.length < 7 || digits.length > 15)) errors.phone = "Enter a valid phone number, or leave it blank.";
+  if (!values.type) errors.type = "Select your business type.";
+  if (!values.volume) errors.volume = "Select the option that best fits.";
+  if (values.message.trim().length < 10) errors.message = "Tell us a little more — at least 10 characters.";
   return errors;
+}
+
+function useReveal() {
+  useEffect(() => {
+    const nodes = Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
+    if (!("IntersectionObserver" in window)) {
+      nodes.forEach((node) => node.classList.add("in"));
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    nodes.forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
+  }, []);
+}
+
+function Logo({ className = "brand-mark" }: { className?: string }) {
+  return <img src={logoAsset.url} alt="Root & Co" className={className} width={733} height={166} />;
+}
+
+function ArrowLink({ href, children }: { href: string; children: ReactNode }) {
+  return <a className="text-link" href={href}>{children}<span aria-hidden="true">↘</span></a>;
+}
+
+function Index() {
+  useReveal();
+  return (
+    <>
+      <Header />
+      <main>
+        <Hero />
+        <Solutions />
+        <Partnerships />
+        <Products />
+        <Operations />
+        <Enquiry />
+      </main>
+      <Footer />
+    </>
+  );
+}
+
+function Header() {
+  return (
+    <header className="site-header">
+      <div className="wrap header-inner">
+        <a href="#top" className="brand-lockup" aria-label="Root & Co for Business — home"><Logo /></a>
+        <nav className="site-nav" aria-label="Primary navigation">
+          <a href="#solutions">Solutions</a>
+          <a href="#partners">Partnerships</a>
+          <a href="#products">Products</a>
+          <a href="#support">Support</a>
+        </nav>
+        <a className="btn btn-primary nav-cta" href="#enquiry">Start a conversation <span aria-hidden="true">↘</span></a>
+      </div>
+    </header>
+  );
+}
+
+function Hero() {
+  return (
+    <section className="hero" id="top">
+      <div className="wrap hero-grid">
+        <div className="hero-copy">
+          <div className="kicker"><span /> Root &amp; Co · For Business</div>
+          <h1>Better plant-based choices, <em>made to fit your business.</em></h1>
+          <p className="hero-lead">Thoughtful wholesale partnerships for cafés, hospitality teams, workplaces and retailers—bringing together vibrant juices, satisfying snacks and support that adapts to the way you operate.</p>
+          <a className="btn btn-primary hero-cta" href="#enquiry">Start a conversation <span aria-hidden="true">↘</span></a>
+          <div className="hero-note"><strong>Built around you</strong><span>No one-size-fits-all catalogue. We shape the right starting range together.</span></div>
+        </div>
+        <div className="hero-media">
+          <img src={heroImage} alt="A wholesale selection of colourful juices and plant-based snacks" width={1600} height={1200} />
+          <div className="hero-caption"><span>Root &amp; Co collection</span><strong>Snacks, juices &amp; thoughtful formats</strong></div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Solutions() {
+  return (
+    <section className="section solutions reveal" id="solutions">
+      <div className="wrap">
+        <div className="section-intro">
+          <div><p className="eyebrow">Tailored wholesale solutions</p><h2>Not a product list. A better-fit range.</h2></div>
+          <p>Every business serves a different customer. We start with what your space needs, then build a plant-based offer that feels considered, commercial and simple to run.</p>
+        </div>
+        <div className="solution-grid">
+          {SOLUTIONS.map((item) => (
+            <article className={`solution-card ${item.className}`} key={item.number}>
+              <span className="solution-number">{item.number}</span>
+              <div><h3>{item.title}</h3><p>{item.body}</p><small>{item.detail}</small></div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Partnerships() {
+  return (
+    <section className="section partners reveal" id="partners">
+      <div className="wrap">
+        <p className="eyebrow">Flexible partnership models</p>
+        <div className="partner-heading"><h2>Built for the place your customers pause, shop or work.</h2><ArrowLink href="#enquiry">Discuss your setup</ArrowLink></div>
+        <div className="partner-list">
+          {PARTNERS.map((partner, index) => <article key={partner.title}><span>0{index + 1}</span><h3>{partner.title}</h3><p>{partner.body}</p><a href="#enquiry" aria-label={`Enquire about ${partner.title}`}>↘</a></article>)}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Products() {
+  return (
+    <section className="section products reveal" id="products">
+      <div className="wrap product-grid">
+        <article className="product-feature product-snacks">
+          <img src={snacksImage} alt="Plant-based snack bites, nuts and dried fruit in wholesale packaging" width={1200} height={912} loading="lazy" />
+          <div className="product-copy"><span>01 · Snacks</span><h2>Small formats. Real satisfaction.</h2><p>Plant-based bites, naturally sweet treats and savoury snacks selected for counters, shelves, rooms and shared spaces.</p></div>
+        </article>
+        <article className="product-feature product-juices">
+          <img src={juiceImage} alt="Colourful cold-pressed juices with fresh fruit and leafy greens" width={1200} height={912} loading="lazy" />
+          <div className="product-copy"><span>02 · Juices</span><h2>Colour, freshness and easy choice.</h2><p>A bright range of fruit, vegetable and botanical blends designed to make the fridge feel inviting and the choice feel effortless.</p></div>
+        </article>
+        <aside className="product-note"><p className="eyebrow">A focused collection</p><p>We intentionally keep the conversation ahead of the catalogue—so the offer reflects your customer, rather than asking you to navigate every possible product.</p><ArrowLink href="#enquiry">Talk through the range</ArrowLink></aside>
+      </div>
+    </section>
+  );
+}
+
+function Operations() {
+  return (
+    <section className="section operations reveal" id="support">
+      <div className="wrap operations-grid">
+        <div className="operations-heading"><p className="eyebrow">Operational support</p><h2>Good products are only the beginning.</h2><p>Behind the range is a straightforward working relationship: clear communication, useful guidance and practical support as your needs evolve.</p></div>
+        <div className="support-list">
+          {SUPPORT.map(([title, body], index) => <article key={title}><span>0{index + 1}</span><div><h3>{title}</h3><p>{body}</p></div></article>)}
+        </div>
+      </div>
+      <div className="wrap process-block">
+        <p className="eyebrow">How we begin</p>
+        <div className="steps">{STEPS.map(([n, title, body]) => <article key={n}><span>{n}</span><h3>{title}</h3><p>{body}</p></article>)}</div>
+      </div>
+    </section>
+  );
 }
 
 function Enquiry() {
@@ -400,14 +283,13 @@ function Enquiry() {
     if (touched) setErrors(validate(next));
   }
 
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault();
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault();
     setTouched(true);
     const found = validate(values);
     setErrors(found);
-    if (Object.keys(found).length > 0) {
-      const first = document.querySelector<HTMLElement>(".field.invalid input, .field.invalid select, .field.invalid textarea");
-      first?.focus();
+    if (Object.keys(found).length) {
+      window.setTimeout(() => document.querySelector<HTMLElement>(".field.invalid input, .field.invalid select, .field.invalid textarea")?.focus(), 0);
       return;
     }
     setSubmitting(true);
@@ -418,181 +300,32 @@ function Enquiry() {
     }, 700);
   }
 
-  useEffect(() => {
-    if (submitted) successRef.current?.focus();
-  }, [submitted]);
-
+  useEffect(() => { if (submitted) successRef.current?.focus(); }, [submitted]);
   const cls = (key: keyof FormState) => `field${errors[key] ? " invalid" : ""}`;
 
   return (
-    <section className="section enquiry reveal" id="enquiry">
+    <section className="enquiry reveal" id="enquiry">
       <div className="wrap enquiry-grid">
-        <div className="enquiry-aside">
-          <p className="eyebrow">Trade enquiry</p>
-          <h2 className="section-title">Get a trade list built for your kitchen</h2>
-          <p className="section-lead">
-            Send the form and a named account lead replies within one working day with pricing,
-            minimums and your delivery window.
-          </p>
-          <ul className="contact-list">
-            <li>
-              <strong>Wholesale desk</strong>
-              <span>trade@rootandco.example · Mon–Fri, 6am–4pm</span>
-            </li>
-            <li>
-              <strong>Phone</strong>
-              <span>+44 20 7946 0142</span>
-            </li>
-            <li>
-              <strong>Packhouse</strong>
-              <span>Unit 4, Hallow Field Way, Bristol BS2 0QT</span>
-            </li>
-          </ul>
-        </div>
-
-        <div className="form-card">
+        <div className="enquiry-aside"><p className="eyebrow">Start a conversation</p><h2>Let’s shape the right Root &amp; Co offer for your business.</h2><p>Tell us a little about your space and what you need. We’ll come back with a considered next step—not a generic price list.</p><div className="enquiry-points"><span>One direct point of contact</span><span>A tailored starting recommendation</span><span>No online checkout or account setup</span></div></div>
+        <div className="form-shell">
           {submitted ? (
-            <div className="success" ref={successRef} tabIndex={-1} role="status" aria-live="polite">
-              <div className="check" aria-hidden="true">
-                ✓
-              </div>
-              <h3>Enquiry received, {values.name.split(" ")[0]}</h3>
-              <p>
-                Thanks — your trade enquiry for <strong>{values.business}</strong> is with our
-                wholesale desk. Expect pricing and delivery windows by email within one working day.
-              </p>
-              <p className="ref">Reference {reference}</p>
-              <div className="form-foot" style={{ justifyContent: "center" }}>
-                <button
-                  type="button"
-                  className="btn btn-ghost"
-                  onClick={() => {
-                    setValues(EMPTY);
-                    setErrors({});
-                    setTouched(false);
-                    setSubmitted(false);
-                  }}
-                >
-                  Send another enquiry
-                </button>
-              </div>
-            </div>
+            <div className="success" ref={successRef} tabIndex={-1} role="status" aria-live="polite"><span className="success-mark">✓</span><p className="eyebrow">Enquiry received</p><h3>Thank you, {values.name.split(" ")[0]}.</h3><p>We have your enquiry for <strong>{values.business}</strong> and will be in touch to explore the right fit.</p><small>Reference {reference}</small><button type="button" className="btn btn-secondary" onClick={() => { setValues(EMPTY); setErrors({}); setTouched(false); setSubmitted(false); }}>Send another enquiry</button></div>
           ) : (
             <form onSubmit={handleSubmit} noValidate>
               <div className="field-row two">
-                <div className={cls("name")}>
-                  <label htmlFor="name">Your name</label>
-                  <input
-                    id="name"
-                    name="name"
-                    value={values.name}
-                    onChange={(e) => update("name", e.target.value)}
-                    placeholder="Alex Whitfield"
-                    aria-invalid={!!errors.name}
-                  />
-                  {errors.name && <span className="err">{errors.name}</span>}
-                </div>
-                <div className={cls("business")}>
-                  <label htmlFor="business">Business name</label>
-                  <input
-                    id="business"
-                    name="business"
-                    value={values.business}
-                    onChange={(e) => update("business", e.target.value)}
-                    placeholder="Fold Street Kitchen"
-                    aria-invalid={!!errors.business}
-                  />
-                  {errors.business && <span className="err">{errors.business}</span>}
-                </div>
+                <Field className={cls("name")} label="Your name" error={errors.name}><input id="name" name="name" value={values.name} onChange={(e) => update("name", e.target.value)} placeholder="Alex Morgan" aria-invalid={!!errors.name} /></Field>
+                <Field className={cls("business")} label="Business name" error={errors.business}><input id="business" name="business" value={values.business} onChange={(e) => update("business", e.target.value)} placeholder="Field House Cafe" aria-invalid={!!errors.business} /></Field>
               </div>
-
               <div className="field-row two">
-                <div className={cls("email")}>
-                  <label htmlFor="email">Work email</label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={values.email}
-                    onChange={(e) => update("email", e.target.value)}
-                    placeholder="buyer@kitchen.com"
-                    aria-invalid={!!errors.email}
-                  />
-                  {errors.email && <span className="err">{errors.email}</span>}
-                </div>
-                <div className={cls("phone")}>
-                  <label htmlFor="phone">Phone (optional)</label>
-                  <input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    value={values.phone}
-                    onChange={(e) => update("phone", e.target.value)}
-                    placeholder="+44 20 7946 0000"
-                    aria-invalid={!!errors.phone}
-                  />
-                  {errors.phone && <span className="err">{errors.phone}</span>}
-                </div>
+                <Field className={cls("email")} label="Work email" error={errors.email}><input id="email" name="email" type="email" value={values.email} onChange={(e) => update("email", e.target.value)} placeholder="alex@business.com" aria-invalid={!!errors.email} /></Field>
+                <Field className={cls("phone")} label="Phone (optional)" error={errors.phone}><input id="phone" name="phone" type="tel" value={values.phone} onChange={(e) => update("phone", e.target.value)} placeholder="Your phone number" aria-invalid={!!errors.phone} /></Field>
               </div>
-
               <div className="field-row two">
-                <div className={cls("type")}>
-                  <label htmlFor="type">Business type</label>
-                  <select
-                    id="type"
-                    name="type"
-                    value={values.type}
-                    onChange={(e) => update("type", e.target.value)}
-                    aria-invalid={!!errors.type}
-                  >
-                    <option value="">Select one…</option>
-                    {BUSINESS_TYPES.map((t) => (
-                      <option key={t} value={t}>
-                        {t}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.type && <span className="err">{errors.type}</span>}
-                </div>
-                <div className={cls("volume")}>
-                  <label htmlFor="volume">Estimated weekly volume</label>
-                  <select
-                    id="volume"
-                    name="volume"
-                    value={values.volume}
-                    onChange={(e) => update("volume", e.target.value)}
-                    aria-invalid={!!errors.volume}
-                  >
-                    <option value="">Select one…</option>
-                    {VOLUMES.map((v) => (
-                      <option key={v} value={v}>
-                        {v}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.volume && <span className="err">{errors.volume}</span>}
-                </div>
+                <Field className={cls("type")} label="Business type" error={errors.type}><select id="type" name="type" value={values.type} onChange={(e) => update("type", e.target.value)} aria-invalid={!!errors.type}><option value="">Select one…</option>{BUSINESS_TYPES.map((type) => <option key={type}>{type}</option>)}</select></Field>
+                <Field className={cls("volume")} label="Business scale" error={errors.volume}><select id="volume" name="volume" value={values.volume} onChange={(e) => update("volume", e.target.value)} aria-invalid={!!errors.volume}><option value="">Select one…</option>{VOLUMES.map((volume) => <option key={volume}>{volume}</option>)}</select></Field>
               </div>
-
-              <div className={cls("message")}>
-                <label htmlFor="message">What do you need from us?</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={values.message}
-                  onChange={(e) => update("message", e.target.value)}
-                  placeholder="We run a 60-cover bistro and need salad leaf, soft herbs and heritage roots three mornings a week."
-                  aria-invalid={!!errors.message}
-                />
-                {errors.message && <span className="err">{errors.message}</span>}
-              </div>
-
-              <div className="form-foot">
-                <button type="submit" className="btn btn-accent" disabled={submitting}>
-                  {submitting ? "Sending…" : "Send trade enquiry"}
-                </button>
-                <small>No account needed. We reply within one working day.</small>
-              </div>
+              <Field className={cls("message")} label="What would a good partnership look like?" error={errors.message}><textarea id="message" name="message" value={values.message} onChange={(e) => update("message", e.target.value)} placeholder="Tell us about your locations, customers and what you would like to offer…" aria-invalid={!!errors.message} /></Field>
+              <div className="form-foot"><button type="submit" className="btn btn-accent" disabled={submitting}>{submitting ? "Sending…" : "Send enquiry"} <span aria-hidden="true">↘</span></button><small>We’ll use these details only to respond to your enquiry.</small></div>
             </form>
           )}
         </div>
@@ -601,101 +334,23 @@ function Enquiry() {
   );
 }
 
-/* 6 — Footer */
+function Field({ className, label, error, children }: { className: string; label: string; error?: string; children: ReactNode }) {
+  const child = children as React.ReactElement<{ id?: string }>;
+  return <div className={className}><label htmlFor={child.props.id}>{label}</label>{children}{error && <span className="err">{error}</span>}</div>;
+}
+
 function Footer() {
   return (
     <footer className="site-footer">
-      <video
-        className="footer-video"
-        src={footerVideo.url}
-        autoPlay
-        muted
-        loop
-        playsInline
-        aria-hidden="true"
-      />
-      <div className="footer-veil" aria-hidden="true" />
-
+      <video className="footer-video" src={footerVideo.url} autoPlay muted loop playsInline aria-hidden="true" /><div className="footer-veil" aria-hidden="true" />
       <div className="wrap footer-top">
-        <div className="footer-brand">
-          <Logo />
-          <div className="footer-wordmark">For Business</div>
-          <p>
-            Small-batch, plant-forward, rooted in where it comes from. Growing, packing and
-            delivering across the South West since 2016.
-          </p>
-          <div className="footer-news">
-            <input type="email" placeholder="Email for the trade bulletin" aria-label="Email for the trade bulletin" />
-            <button type="button" className="btn btn-accent">
-              Join
-            </button>
-          </div>
-        </div>
-
-        <div className="footer-col">
-          <h4>Wholesale</h4>
-          <ul>
-            <li>
-              <a href="#ranges">Leaf &amp; Herb</a>
-            </li>
-            <li>
-              <a href="#ranges">Roots &amp; Field</a>
-            </li>
-            <li>
-              <a href="#ranges">Pantry &amp; Ferment</a>
-            </li>
-            <li>
-              <a href="#enquiry">White-label runs</a>
-            </li>
-          </ul>
-        </div>
-
-        <div className="footer-col">
-          <h4>Company</h4>
-          <ul>
-            <li>
-              <a href="#why">Why Root &amp; Co</a>
-            </li>
-            <li>
-              <a href="#how">How it works</a>
-            </li>
-            <li>
-              <a href="#how">Grower network</a>
-            </li>
-            <li>
-              <a href="#enquiry">Careers</a>
-            </li>
-          </ul>
-        </div>
-
-        <div className="footer-col">
-          <h4>Contact</h4>
-          <ul>
-            <li>trade@rootandco.example</li>
-            <li>+44 20 7946 0142</li>
-            <li>Unit 4, Hallow Field Way</li>
-            <li>Bristol BS2 0QT</li>
-          </ul>
-        </div>
+        <div className="footer-brand"><Logo /><p>Plant-based snacks, vibrant juices and wholesale partnerships shaped around the people you serve.</p></div>
+        <div className="footer-col"><h3>Explore</h3><a href="#solutions">Solutions</a><a href="#partners">Partnerships</a><a href="#products">Products</a><a href="#support">Support</a></div>
+        <div className="footer-col"><h3>For business</h3><a href="#partners">Independent retail</a><a href="#partners">Hospitality</a><a href="#partners">Workplaces</a><a href="#enquiry">Wholesale enquiry</a></div>
+        <div className="footer-call"><p>Ready to build a better-fit range?</p><a className="btn btn-accent" href="#enquiry">Start a conversation <span aria-hidden="true">↘</span></a></div>
       </div>
-
-      <div className="footer-marquee" aria-hidden="true">
-        <span>
-          Harvested at dawn · Packed by 11 · On your bench by service · Returnable crates · Fixed
-          90-day trade pricing · Harvested at dawn · Packed by 11 · On your bench by service ·
-          Returnable crates · Fixed 90-day trade pricing ·&nbsp;
-        </span>
-      </div>
-
-      <div className="wrap footer-bottom">
-        <span>© {new Date().getFullYear()} Root &amp; Co Produce Ltd. All rights reserved.</span>
-        <div className="footer-legal">
-          <a href="#top">Terms of trade</a>
-          <a href="#top">Privacy</a>
-          <a href="#top">Allergen &amp; sourcing</a>
-          <a href="#top">Back to top ↑</a>
-        </div>
-      </div>
+      <div className="footer-marquee" aria-hidden="true"><span>Plant-based by nature · Built for business · Snacks with substance · Juices full of colour · Thoughtful partnerships · Plant-based by nature · Built for business · Snacks with substance · Juices full of colour · Thoughtful partnerships ·&nbsp;</span></div>
+      <div className="wrap footer-bottom"><span>© {new Date().getFullYear()} Root &amp; Co. All rights reserved.</span><div><a href="#top">Privacy</a><a href="#top">Terms</a><a href="#top">Back to top ↑</a></div></div>
     </footer>
   );
 }
