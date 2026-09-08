@@ -619,7 +619,7 @@ function Footer() {
       <div className="wrap footer-top">
         <div className="footer-brand">
           <Logo />
-          <div className="footer-wordmark">Root &amp; Co</div>
+          <div className="footer-wordmark">For Business</div>
           <p>
             Small-batch, plant-forward, rooted in where it comes from. Growing, packing and
             delivering across the South West since 2016.
