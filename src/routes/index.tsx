@@ -310,7 +310,11 @@ function Enquiry() {
     }, 700);
   }
 
-  useEffect(() => { if (submitted) successRef.current?.focus(); }, [submitted]);
+  useEffect(() => {
+    if (!submitted) return;
+    successRef.current?.focus({ preventScroll: true });
+    successRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [submitted]);
   const cls = (key: keyof FormState) => `field${errors[key] ? " invalid" : ""}`;
 
   return (
