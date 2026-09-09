@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "rea
 
 import footerVideo from "../assets/footer-loop.mp4.asset.json";
 import juiceImage from "../assets/juice-range.jpg";
-import logoAsset from "../assets/logo.svg.asset.json";
+import logoAsset from "../assets/logo.png";
 import snacksImage from "../assets/snacks-range.jpg";
 import rangeImage from "../assets/solution-range.jpg";
 import supplyImage from "../assets/solution-supply.jpg";
