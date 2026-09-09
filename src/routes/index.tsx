@@ -5,6 +5,8 @@ import footerVideo from "../assets/footer-loop.mp4.asset.json";
 import juiceImage from "../assets/juice-range.jpg";
 import logoAsset from "../assets/logo.svg.asset.json";
 import snacksImage from "../assets/snacks-range.jpg";
+import rangeImage from "../assets/solution-range.jpg";
+import supplyImage from "../assets/solution-supply.jpg";
 import heroImage from "../assets/wholesale-hero.jpg";
 
 const TITLE = "Root & Co for Business | Plant-Based Wholesale";
@@ -207,12 +209,20 @@ function Solutions() {
           <p>Every business serves a different customer. We start with what your space needs, then build a plant-based offer that feels considered, commercial and simple to run.</p>
         </div>
         <div className="solution-grid">
+          <figure className="solution-media solution-tall">
+            <img src={rangeImage} alt="Kraft snack pouches, nuts, dried fruit and cold-pressed juices laid out for wholesale range planning" width={1280} height={1600} loading="lazy" />
+            <figcaption>Range planning</figcaption>
+          </figure>
           {SOLUTIONS.map((item) => (
             <article className={`solution-card ${item.className}`} key={item.number}>
               <span className="solution-number">{item.number}</span>
               <div><h3>{item.title}</h3><p>{item.body}</p><small>{item.detail}</small></div>
             </article>
           ))}
+          <figure className="solution-media solution-strip">
+            <img src={supplyImage} alt="Café team unpacking crates of plant-based snacks and juice bottles behind the counter" width={1280} height={900} loading="lazy" />
+            <figcaption>Delivered, unpacked, ready to serve</figcaption>
+          </figure>
         </div>
       </div>
     </section>
