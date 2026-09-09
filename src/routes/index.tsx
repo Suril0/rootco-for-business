@@ -138,7 +138,7 @@ function useReveal() {
 }
 
 function Logo({ className = "brand-mark" }: { className?: string }) {
-  return <img src={logoAsset.url} alt="Root & Co" className={className} width={733} height={166} />;
+  return <img src={logoAsset} alt="Root & Co" className={className} width={733} height={166} />;
 }
 
 function ArrowLink({ href, children }: { href: string; children: ReactNode }) {
